@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d6e5a" />
+    <title>StockSaathi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero" aria-labelledby="app-title">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-dot"></span> MULTI-SHOP INVENTORY INTELLIGENCE</p>
+          <h1 id="app-title">Stock <span>Saathi</span></h1>
+          <p class="hero-copy">Catch duplicate orders, transfer surplus between shops, and move expiring stock before it becomes waste.</p>
+        </div>
+        <div class="hero-meta">
+          <div class="metric-chip">
+            <span>Lead time</span>
+            <strong>1 week</strong>
+          </div>
+          <div class="metric-chip">
+            <span>Safety buffer</span>
+            <strong>5 units</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Inventory controls">
+        <div class="shop-switcher" role="tablist" aria-label="Choose shop view">
+          <button class="view-tab active" data-view="Shop 1" role="tab" aria-selected="true">Shop 1</button>
+          <button class="view-tab" data-view="Shop 2" role="tab" aria-selected="false">Shop 2</button>
+          <button class="view-tab comparison-tab" data-view="Both" role="tab" aria-selected="false"><span>↔</span> Both shops</button>
+        </div>
+        <div class="toolbar-actions">
+          <label class="upload-button" for="csv-upload">
+            <input id="csv-upload" type="file" accept=".csv,text/csv" />
+            <span>↥</span> Upload CSV
+          </label>
+          <button id="load-sample" class="button secondary">Load sample data</button>
+          <button id="export-inventory" class="button primary">Export inventory <span>↓</span></button>
+        </div>
+      </section>
+
+      <section id="summary-cards" class="summary-grid" aria-label="Inventory summary"></section>
+
+      <section class="inventory-panel" aria-labelledby="inventory-heading">
+        <div class="panel-header">
+          <div>
+            <p class="section-kicker">LIVE INVENTORY</p>
+            <h2 id="inventory-heading">Stock health by medicine</h2>
+          </div>
+          <p id="table-context" class="table-context"></p>
+        </div>
+        <div id="inventory-table-wrap" class="table-wrap"></div>
+      </section>
+
+      <section class="alerts-panel" aria-labelledby="expiry-heading">
+        <div class="panel-header alert-header">
+          <div>
+            <p class="section-kicker warning-kicker">TIME-SENSITIVE</p>
+            <h2 id="expiry-heading">Expiry alerts</h2>
+          </div>
+          <p id="expiry-count" class="alert-count"></p>
+        </div>
+        <div id="expiry-alerts" class="expiry-list"></div>
+      </section>
+    </main>
+
+    <dialog id="stock-dialog" class="modal">
+      <form id="stock-form" method="dialog">
+        <div class="modal-heading">
+          <div>
+            <p class="section-kicker">RECEIVE STOCK</p>
+            <h2 id="stock-dialog-title">Add stock</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close dialog">×</button>
+        </div>
+        <p id="stock-dialog-copy" class="modal-copy"></p>
+        <label class="field-label" for="stock-quantity">Quantity received</label>
+        <input id="stock-quantity" name="quantity" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 24" required autofocus />
+        <p class="field-hint">A fresh batch with a one-year expiry will be added. Last order date will be set to today.</p>
+        <div class="modal-actions">
+          <button class="button secondary" type="button" data-close-dialog>Cancel</button>
+          <button class="button primary" type="submit">Add to inventory</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="transfer-dialog" class="modal">
+  <form id="transfer-form" method="dialog">
+    <div class="modal-heading">
+      <div>
+        <p class="section-kicker transfer-kicker">SHOP TRANSFER</p>
+        <h2 id="transfer-dialog-title">Move surplus stock</h2>
+      </div>
+      <button class="icon-button" type="button" data-close-dialog aria-label="Close dialog">×</button>
+    </div>
+
+    <p id="transfer-dialog-copy" class="modal-copy"></p>
+
+    <label class="field-label" for="transfer-quantity">
+      Units to transfer
+    </label>
+
+    <input
+      id="transfer-quantity"
+      name="quantity"
+      type="number"
+      min="1"
+      step="1"
+      inputmode="numeric"
+      required
+      autofocus
+    />
+
+    <p id="transfer-limit" class="field-hint"></p>
+
+    <div class="modal-actions">
+      <button class="button secondary" type="button" data-close-dialog">
+        Cancel
+      </button>
+
+      <button class="button transfer-button" type="submit">
+        Mark as transferred
+      </button>
+    </div>
+  </form>
+    </dialog>
+
+    <dialog id="sell-dialog" class="modal">
+  <form id="sell-form" method="dialog">
+    <div class="modal-heading">
+      <div>
+        <p class="section-kicker">SELL MEDICINE</p>
+        <h2 id="sell-dialog-title">Sell Medicine</h2>
+      </div>
+      <button class="icon-button" type="button" data-close-dialog aria-label="Close dialog">×</button>
+    </div>
+
+    <p id="sell-dialog-copy" class="modal-copy"></p>
+
+    <label class="field-label" for="sell-quantity">
+      Units to sell
+    </label>
+
+    <input
+      id="sell-quantity"
+      name="quantity"
+      type="number"
+      min="1"
+      step="1"
+      inputmode="numeric"
+      required
+      autofocus
+    />
+
+    <p id="sell-limit" class="field-hint"></p>
+
+    <div class="modal-actions">
+      <button class="button secondary" type="button" data-close-dialog">
+        Cancel
+      </button>
+
+      <button class="button primary" type="submit">
+        Confirm Sale
+      </button>
+    </div>
+  </form>
+</dialog>
+
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
