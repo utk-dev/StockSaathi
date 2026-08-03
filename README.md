@@ -1,6 +1,6 @@
-# Pharma Stock Sense
+# StockSaathi
 
-Pharma Stock Sense is a browser-based inventory management application
+StockSaathi is a browser-based inventory management application
 designed for multi-shop pharmacies. It helps store managers monitor
 stock levels, identify medicines that need reordering, recommend stock
 transfers between branches, and track batches nearing expiry.
