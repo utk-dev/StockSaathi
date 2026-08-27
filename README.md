@@ -9,7 +9,7 @@ transfers between branches, and track batches nearing expiry.
 
 **Website:** https://stock-saathi-delta.vercel.app/
 
-## Features
+## Features 
 
 -   Multi-shop inventory management
 -   Intelligent reorder point calculation
