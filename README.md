@@ -1,5 +1,5 @@
 # StockSaathi
-
+ 
 StockSaathi is a browser-based inventory management application
 designed for multi-shop pharmacies. It helps store managers monitor
 stock levels, identify medicines that need reordering, recommend stock
