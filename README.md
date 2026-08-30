@@ -6,7 +6,7 @@ stock levels, identify medicines that need reordering, recommend stock
 transfers between branches, and track batches nearing expiry.  
  
 ## 🚀 Live Demo  
-
+ 
 **Website:** https://stock-saathi-delta.vercel.app/
 
 ## Features 
