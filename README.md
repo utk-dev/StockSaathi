@@ -5,7 +5,7 @@ designed for multi-shop pharmacies. It helps store managers monitor
 stock levels, identify medicines that need reordering, recommend stock
 transfers between branches, and track batches nearing expiry.  
  
-## 🚀 Live Demo
+## 🚀 Live Demo 
 
 **Website:** https://stock-saathi-delta.vercel.app/
 
